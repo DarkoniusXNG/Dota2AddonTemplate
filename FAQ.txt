@@ -1,0 +1,38 @@
+1) How to disable respawning of all heroes?
+
+GameRules:SetHeroRespawnEnabled(false)
+
+This can be placed anywhere in your gamemode code.
+
+2) How to disable respawning for an individual hero (not all heroes)?
+
+hero:SetRespawnsDisabled(true) worked without issues before Aghanim's Lab 2. 
+Changing this causes top bar icon (grayed-out hero icon while dead) for the hero shows him as permanently dead until he dies and respawns again if respawn is enabled again.
+
+Workaround if the thing above bothers you: 
+- If a hero isn't supposed to respawn, put an extremely large respawn time when the hero dies.
+How to do it? Listen to entity_killed event and then:
+
+if condition then
+  if not killed_hero:IsReincarnating() then
+    killed_hero:SetTimeUntilRespawn(999999)
+  end
+end
+
+3) How to make the shops global (being able to buy items from anywhere on the map)?
+
+First: GameRules:SetUseUniversalShopMode(true) -- this will allow buying secret shop items in the fountain shop and all items in the secret shop.
+Second: In Hammer, find the fountain shop trigger box and expand it all over the map. One trigger box is enough if you did the first thing.
+
+4) How to enable vanilla dota 2 passive gpm?
+
+You need to enable vanilla couriers with: GameRules:GetGameModeEntity():SetFreeCourierModeEnabled(true)
+
+4.2) How to enable vanilla dota 2 passive gpm without enabling couriers?
+
+You would need to create a custom passive gpm system.
+
+5) How to edit passive GPM or create a new custom passive GPM system?
+
+Many ways to do it. One example is to listen to event and apply the following modifier to the spawned hero:
+https://raw.githubusercontent.com/DarkoniusXNG/barebones/source2/game/dota_addons/barebones/scripts/vscripts/modifiers/modifier_custom_passive_gold_example.lua
